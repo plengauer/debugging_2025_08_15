@@ -28,10 +28,10 @@ jobs:
           OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "${{ inputs.smee-url-traces }}"
           OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "${{ inputs.smee-url-metrics }}"
           OTEL_EXPORTER_OTLP_LOGS_ENDPOINT: "${{ inputs.smee-url-logs }}"
-          OTEL_EXPORTER_OTLP_PROTOCOL: 'http/json'
-          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: 'http/json'
-          OTEL_EXPORTER_OTLP_METRICS_PROTOCOL: 'http/json'
-          OTEL_EXPORTER_OTLP_LOGS_PROTOCOL: 'http/json'
+          OTEL_EXPORTER_OTLP_PROTOCOL: 'http/proto' # 'http/json'
+          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: 'http/proto' # 'http/json'
+          OTEL_EXPORTER_OTLP_METRICS_PROTOCOL: 'http/proto' # 'http/json'
+          OTEL_EXPORTER_OTLP_LOGS_PROTOCOL: 'http/proto' # 'http/json'
           OTEL_EXPORTER_OTLP_TIMEOUT: 500
           OTEL_EXPORTER_OTLP_TRACES_TIMEOUT: 500
           OTEL_EXPORTER_OTLP_METRICS_TIMEOUT: 500
