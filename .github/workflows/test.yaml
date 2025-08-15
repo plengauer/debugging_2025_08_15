@@ -1,0 +1,54 @@
+name: Validate Renovate Config
+
+on:
+  workflow_dispatch:
+    inputs:
+      smee-url-traces: 
+        description: "Unique url of smee.io to forward traces to local grafana. Must be different than metrics and logs url"
+        required: true
+        type: string
+      smee-url-metrics: 
+        description: "Unique url of smee.io to forward metrics to local grafana. Must be different than tracs and logs url"
+        required: true
+        type: string
+      smee-url-logs: 
+        description: "Url of smee.io to forward logs to local grafana. Must be different than traces and metrics url"
+        required: true
+        type: string
+
+jobs:
+  validate-renovate-config-if-needed:
+    name: Validate Renovate config (if needed)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Instrument job otel
+        uses: plengauer/Thoth/actions/instrument/job@v5.23.0              
+        env:
+          OTEL_SERVICE_NAME: 'test-plengauer-gh-otel'
+          OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "${{ inputs.smee-url-traces }}"
+          OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: "${{ inputs.smee-url-metrics }}"
+          OTEL_EXPORTER_OTLP_LOGS_ENDPOINT: "${{ inputs.smee-url-logs }}"
+          OTEL_EXPORTER_OTLP_PROTOCOL: 'http/json'
+          OTEL_EXPORTER_OTLP_TRACES_PROTOCOL: 'http/json'
+          OTEL_EXPORTER_OTLP_METRICS_PROTOCOL: 'http/json'
+          OTEL_EXPORTER_OTLP_LOGS_PROTOCOL: 'http/json'
+          OTEL_EXPORTER_OTLP_TIMEOUT: 500
+          OTEL_EXPORTER_OTLP_TRACES_TIMEOUT: 500
+          OTEL_EXPORTER_OTLP_METRICS_TIMEOUT: 500
+          OTEL_EXPORTER_OTLP_LOGS_TIMEOUT: 500
+          OTEL_METRICS_EXPORTER: otlp 
+          
+      - name: Checkout code
+        uses: actions/checkout@08eba0b27e820071cde6df949e0beb9ba4906955 # v4
+
+      - name: Check smee urls can accept payloads
+        run: |
+          curl -X POST ${{ inputs.smee-url-logs }} -H "Content-Type: application/json" -d '{"log":"from ${{ github.action }}"}'
+          curl -X POST ${{ inputs.smee-url-metrics }} -H "Content-Type: application/json" -d '{"metric":"from ${{ github.action }}"}'
+          curl -X POST ${{ inputs.smee-url-traces }} -H "Content-Type: application/json" -d '{"trace":"from ${{ github.action }}"}'
+
+      - name: Setup NodeJS
+        uses: actions/setup-node@v4
+
+      - name: Validate Renovate config file syntax
+        run: npx --yes --package renovate -- renovate-config-validator
