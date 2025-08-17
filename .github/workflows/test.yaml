@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Instrument job otel
-        uses: plengauer/Thoth/actions/instrument/job@v5.23.0              
+        uses: plengauer/Thoth/actions/instrument/job@v5.24.1
         env:
           OTEL_SERVICE_NAME: 'test-plengauer-gh-otel'
           OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "${{ inputs.smee-url-traces }}"
