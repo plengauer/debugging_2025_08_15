@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Instrument job otel
-        uses: plengauer/Thoth/actions/instrument/job@v5.49.0
+        uses: plengauer/opentelemetry-github/actions/instrument/job@v5.49.0
         env:
           OTEL_SERVICE_NAME: 'test-plengauer-gh-otel'
           OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "${{ inputs.smee-url-traces }}"
@@ -37,9 +37,10 @@ jobs:
           OTEL_EXPORTER_OTLP_METRICS_TIMEOUT: 500
           OTEL_EXPORTER_OTLP_LOGS_TIMEOUT: 500
           OTEL_METRICS_EXPORTER: otlp 
-          
+        with:
+          secrets_to_redact: ${{ github.token }}
       - name: Checkout code
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
       - name: Check smee urls can accept payloads
         run: |
@@ -52,3 +53,5 @@ jobs:
 
       - name: Validate Renovate config file syntax
         run: npx --yes --package renovate -- renovate-config-validator
+    permissions:
+      actions: read
