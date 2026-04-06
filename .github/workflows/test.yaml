@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Instrument job otel
-        uses: plengauer/opentelemetry-github/actions/instrument/job@v5.50.0
+        uses: plengauer/opentelemetry-github/actions/instrument/job@215271fe54efbdffbece78b02493f7ecd73678f8 # v5.50.0
         env:
           OTEL_SERVICE_NAME: 'test-plengauer-gh-otel'
           OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: "${{ inputs.smee-url-traces }}"
@@ -49,7 +49,7 @@ jobs:
           curl -X POST ${{ inputs.smee-url-traces }} -H "Content-Type: application/json" -d '{"trace":"from ${{ github.action }}"}'
 
       - name: Setup NodeJS
-        uses: actions/setup-node@v6
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
 
       - name: Validate Renovate config file syntax
         run: npx --yes --package renovate -- renovate-config-validator
