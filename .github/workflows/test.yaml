@@ -49,7 +49,7 @@ jobs:
           curl -X POST ${{ inputs.smee-url-traces }} -H "Content-Type: application/json" -d '{"trace":"from ${{ github.action }}"}'
 
       - name: Setup NodeJS
-        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6
+        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
 
       - name: Validate Renovate config file syntax
         run: npx --yes --package renovate -- renovate-config-validator
