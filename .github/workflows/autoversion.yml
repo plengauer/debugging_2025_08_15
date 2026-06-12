@@ -34,3 +34,5 @@ jobs:
           github_token: ${{ secrets.ACTIONS_GITHUB_TOKEN || github.token }}
           openai_token: ${{ secrets.OPENAI_TOKEN }}
           increments: ${{ github.ref_name == 'main' && 'major;minor' || 'patch' }}
+    permissions:
+      actions: read
