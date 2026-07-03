@@ -31,3 +31,5 @@ jobs:
           OTEL_EXPORTER_OTLP_HEADERS: '${{ secrets.OTEL_EXPORTER_OTLP_HEADERS }}'
     permissions:
       actions: read
+      contents: write
+      pull-requests: write
